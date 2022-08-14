@@ -174,6 +174,11 @@ body {
   font-family: Permanent Marker;
   background: linear-gradient(-45deg, #0F2027, #203A43, #2C5364);
   color: white;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
 }
 
 a {
