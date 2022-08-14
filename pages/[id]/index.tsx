@@ -1,53 +1,35 @@
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import Header from '../../components/header'
+import styles from '../../styles/Home.module.css'
 
-import { useEffect, useState } from 'react'
-import { useAppSelector, useAppDispatch } from '../stores/hooks'
-import { selectMint, setErrorMessage, setSoldOut } from '../stores/mint-slice'
-import { CONTRACT_ADDRESS } from '../utils/constants'
-import ETHLottery from '../utils/ETHLottery.json'
-import { ethers } from 'ethers'
+const NFT: NextPage = () => {
+  const router = useRouter();
 
-const Ball = () => {
-  const dispatch = useAppDispatch()
-  const { errorMessage } = useAppSelector(selectMint)
-  const [ballonVisible, setBallonVisible] = useState(false)
-  const [index, setIndex] = useState(0)
-  const [check, setCheck] = useState(0)
-
-  useEffect(() => {
-      const watchSupplyFunction = async () => {
-        const { ethereum } = window;
-
-        if (!ethereum) {
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner()
-          const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ETHLottery.abi, signer)
-          let minted = await connectedContract.totalSupply()
-          let maxSupply = await connectedContract.MAX_SUPPLY()
-
-          if (minted === maxSupply) {
-            dispatch(setSoldOut(true))
-          }
-        }
-      }
-
-      const id = setInterval(async () => {
-          await watchSupplyFunction()
-          setCheck(check + 1)
-      }, 3000);
-
-      return () => clearInterval(id);
-  }, [check, dispatch])
+  if (!router.isFallback && !router.query.id) {
+      return (<div></div>);
+  }
 
   return (
-  <><div className="wrap">
-      <section className="stage">
-        <figure className="ball">
-          <span className="number" data-number="?">&nbsp;</span>
-        </figure>
-      </section>
-    </div>
+    <><div className={styles.container} suppressHydrationWarning={true}>
+      <Head>
+        <title>NFT</title>
+        <meta name="description" content="History kuma world" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-<style jsx>{`
+      <main className={styles.main}>
+
+        <div className="wrap">
+          <section className="stage">
+            <figure className="ball">
+              <span className="number" data-number={router.query.id}>&nbsp;</span>
+            </figure>
+          </section>
+        </div>
+      </main>
+    </div><style jsx>{`
 .ball {
   display: grid;
   width: 100%;
@@ -183,9 +165,32 @@ const Ball = () => {
   animation-delay: 2.4s;
 }
 
-`}</style>
-      </>
+`}</style></>
   )
 }
 
-export default Ball
+export default NFT
+
+export async function getStaticPaths() {
+
+  return {
+    paths: Array.from({ length: 5000 }).map((nft, index) => {
+      return {
+        params: {
+          id: index.toString(),
+        },
+      };
+    }),
+    fallback: false,
+  };
+}
+
+
+
+export async function getStaticProps({ params }: { params: { id: string } }) {
+  return {
+    props: {
+      id: params.id
+    },
+  };
+}
