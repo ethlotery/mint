@@ -11,7 +11,6 @@ const nextConfig = {
   exportPathMap: async function () {
     return {
       '/': { page: '/' },
-      '/history': { page: '/history' },
     }
   },
 }
