@@ -50,7 +50,7 @@ const MintSection = (): JSX.Element => {
 
         let mintPrice = qty * parseFloat(ethers.utils.formatEther(price))
 
-        const nftTxn = await connectedContract.adoptKumas(qty, { value: ethers.utils.parseEther(mintPrice.toString()) })
+        const nftTxn = await connectedContract.mint(qty, { value: ethers.utils.parseEther(mintPrice.toString()) })
 
         await nftTxn.wait()
         console.log(nftTxn)

@@ -15,7 +15,7 @@ const NFT: NextPage = () => {
     <><div className={styles.container} suppressHydrationWarning={true}>
       <Head>
         <title>NFT</title>
-        <meta name="description" content="History kuma world" />
+        <meta name="description" content={`Ball #${router.query.id}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
