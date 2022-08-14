@@ -80,7 +80,7 @@ const AccountButton = (): JSX.Element => {
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ETHLottery.abi, signer);
 
-        connectedContract.on("New Numbers", (from, tokenId) => {
+        connectedContract.on("NewNumbers", (from, tokenId) => {
           setOpen(true)
         })
       } else {

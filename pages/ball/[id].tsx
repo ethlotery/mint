@@ -1,15 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import Header from '../../components/header'
 import styles from '../../styles/Home.module.css'
 
 const NFT: NextPage = () => {
   const router = useRouter();
-
-  if (!router.isFallback && !router.query.id) {
-      return (<div></div>);
-  }
 
   return (
     <><div className={styles.container} suppressHydrationWarning={true}>
@@ -29,7 +24,8 @@ const NFT: NextPage = () => {
           </section>
         </div>
       </main>
-    </div><style jsx>{`
+    </div>
+    <style jsx>{`
 .ball {
   display: grid;
   width: 100%;
@@ -170,27 +166,3 @@ const NFT: NextPage = () => {
 }
 
 export default NFT
-
-export async function getStaticPaths() {
-
-  return {
-    paths: Array.from({ length: 5000 }).map((nft, index) => {
-      return {
-        params: {
-          id: index.toString(),
-        },
-      };
-    }),
-    fallback: false,
-  };
-}
-
-
-
-export async function getStaticProps({ params }: { params: { id: string } }) {
-  return {
-    props: {
-      id: params.id
-    },
-  };
-}
