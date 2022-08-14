@@ -19,7 +19,7 @@ const Header = (): JSX.Element => {
             <FaTwitter color="#1DA1F2"/>
           </IconButton>
           <IconButton sx={{ background: 'white', mr: 2 }} onClick={() => {
-            window.open('https://opensea.io/collection/', '_blank')
+            window.open('https://opensea.io/collection/ethlotteryball', '_blank')
           }}>
             <img src={'https://storage.googleapis.com/opensea-static/Logomark/Logomark-White.png'} alt="opensea-logo" height={27} width={27} />
           </IconButton>
