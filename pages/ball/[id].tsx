@@ -5,6 +5,9 @@ import styles from '../../styles/Home.module.css'
 
 const NFT: NextPage = () => {
   const router = useRouter();
+  if (!router.isFallback && !router.query.id) {
+    return (<div></div>);
+}
 
   return (
     <><div className={styles.container} suppressHydrationWarning={true}>
@@ -161,8 +164,52 @@ const NFT: NextPage = () => {
   animation-delay: 2.4s;
 }
 
+`}</style>
+<style jsx global>{`
+html,
+body {
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  font-family: Permanent Marker;
+  background: linear-gradient(-45deg, #0F2027, #203A43, #2C5364);
+  color: white;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 `}</style></>
   )
 }
 
 export default NFT
+export async function getStaticPaths() {
+
+  return {
+    paths: Array.from({ length: 5000 }).map((nft, index) => {
+      return {
+        params: {
+          id: index.toString(),
+        },
+      };
+    }),
+    fallback: false,
+  };
+}
+
+
+
+export async function getStaticProps({ params }: { params: { id: string } }) {
+  return {
+    props: {
+      id: params.id
+    },
+  };
+}
