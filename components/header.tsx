@@ -24,7 +24,7 @@ const Header = (): JSX.Element => {
             <img src={'https://storage.googleapis.com/opensea-static/Logomark/Logomark-White.png'} alt="opensea-logo" height={27} width={27} />
           </IconButton>
           <IconButton sx={{ background: 'white', mr: 2 }} onClick={() => {
-            window.open('https://etherscan.io/address/', '_blank')
+            window.open('https://etherscan.io/address/0x8Dfb966D4B0784CE376A9C4fba3FE88393af9552', '_blank')
           }}>
             <img src={'https://etherscan.io/images/brandassets/etherscan-logo-circle.png'} alt="opensea-logo" height={27} width={27} />
           </IconButton>
