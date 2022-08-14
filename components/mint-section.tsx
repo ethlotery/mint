@@ -46,7 +46,6 @@ const MintSection = (): JSX.Element => {
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ETHLottery.abi, signer)
 
         const price = await connectedContract.PRICE()
-        const totalMinted = await connectedContract.totalSupply()
 
         let mintPrice = qty * parseFloat(ethers.utils.formatEther(price))
 

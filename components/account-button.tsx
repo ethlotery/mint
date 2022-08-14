@@ -71,6 +71,13 @@ const AccountButton = (): JSX.Element => {
     }
   }
 
+  useEffect(() => {
+    const setup = async () => {
+      await setupEventListener()
+    }
+    setup()
+  }, [])
+
   const setupEventListener = async () => {
     try {
       const { ethereum } = window;
@@ -79,8 +86,10 @@ const AccountButton = (): JSX.Element => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ETHLottery.abi, signer);
+        console.log('passa')
 
         connectedContract.on("NewNumbers", (from, tokenId) => {
+          console.log('passa')
           setOpen(true)
         })
       } else {
@@ -100,7 +109,11 @@ const AccountButton = (): JSX.Element => {
   return (
     <>
       <Modal open={open} handleClose={() => setOpen(false)} showCloseButton modalName="Minted">
-        <Typography>Good lucky investor</Typography>
+        <>
+          <Typography variant="subtitle1">Successfully minted, GOOD LUCK INVESTOR.</Typography>
+          <br />
+          <Typography variant="body1">Follow us on twitter and enable notifications to stay on top of lottery results.</Typography>
+        </>
       </Modal>
       <Button className={styles.button} variant="contained" size="small" sx={{ fontWeight: 'bold', borderRadius: '100px', p: '8px', width: '100%' }}>
         <Typography className={styles.wallet} onClick={account != '' ? handleClick : onClickConnectWallet}>

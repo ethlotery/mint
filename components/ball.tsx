@@ -1,43 +1,4 @@
-
-import { useEffect, useState } from 'react'
-import { useAppSelector, useAppDispatch } from '../stores/hooks'
-import { selectMint, setErrorMessage, setSoldOut } from '../stores/mint-slice'
-import { CONTRACT_ADDRESS } from '../utils/constants'
-import ETHLottery from '../utils/ETHLottery.json'
-import { ethers } from 'ethers'
-
 const Ball = () => {
-  const dispatch = useAppDispatch()
-  const { errorMessage } = useAppSelector(selectMint)
-  const [ballonVisible, setBallonVisible] = useState(false)
-  const [index, setIndex] = useState(0)
-  const [check, setCheck] = useState(0)
-
-  useEffect(() => {
-      const watchSupplyFunction = async () => {
-        const { ethereum } = window;
-
-        if (!ethereum) {
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner()
-          const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, ETHLottery.abi, signer)
-          let minted = await connectedContract.totalSupply()
-          let maxSupply = await connectedContract.MAX_SUPPLY()
-
-          if (minted === maxSupply) {
-            dispatch(setSoldOut(true))
-          }
-        }
-      }
-
-      const id = setInterval(async () => {
-          await watchSupplyFunction()
-          setCheck(check + 1)
-      }, 3000);
-
-      return () => clearInterval(id);
-  }, [check, dispatch])
-
   return (
   <><div className="wrap">
       <section className="stage">
